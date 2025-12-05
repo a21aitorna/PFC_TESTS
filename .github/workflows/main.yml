@@ -36,11 +36,11 @@ jobs:
         run: node ./run-all-tests.js
 
       # Subir artefactos
-      - name: Upload backend test report
+      - name: Upload backend HTML reports
         uses: actions/upload-artifact@v4
         with:
-          name: backend-test-report
-          path: backend-testing/reports/backend-results.xml
+          name: backend-html-reports
+          path: backend-testing/reports/**/*.html
 
       # Publicar resumen en GitHub Actions
       - name: Publish Backend JUnit results
