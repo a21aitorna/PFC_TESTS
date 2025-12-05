@@ -3,7 +3,7 @@ name: Scheduled Backend & Frontend Tests with Reports
 on:
   workflow_dispatch:   # Permite ejecución manual
   schedule:
-    - cron: '0 2 * * *'  # Se ejecuta cada día a las 02:00 UTC
+    - cron: "*/5 * * * *"  # Se ejecuta cada día a las 02:00 UTC
 
 jobs:
   backend:
