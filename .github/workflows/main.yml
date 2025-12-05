@@ -89,4 +89,5 @@ jobs:
         with:
           name: Frontend Tests
           path: frontend-testing/target/surefire-reports/*.xml
-          reporter: junit
+          parser: junit
+          fail-on-empty: true
