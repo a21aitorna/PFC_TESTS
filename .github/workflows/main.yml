@@ -69,5 +69,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: frontend-test-reports
-          path: frontend-testing/cucumber-reports/*.html
+          path: frontend-testing/target/cucumber-reports/*.html
           if-no-files-found: error
