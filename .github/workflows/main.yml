@@ -98,6 +98,18 @@ jobs:
         with:
           name: frontend-test-reports
           path: deploy-reports/frontend
+
+      - name: Create Index File for Navigation 🌐
+        run: |
+          echo '<!DOCTYPE html>' > deploy-reports/index.html
+          echo '<html><head><title>Test Reports Index</title></head><body>' >> deploy-reports/index.html
+          echo '<h1>Automated Test Reports Index</h1>' >> deploy-reports/index.html
+          echo '<ul>' >> deploy-reports/index.html
+          echo '<li><a href="./backend/index.html">Backend API HTML Reports</a></li>' >> deploy-reports/index.html
+          echo '<li><a href="./frontend/index.html">Frontend UI Test Reports</a></li>' >> deploy-reports/index.html
+          # Agrega más reportes aquí si es necesario
+          echo '</ul>' >> deploy-reports/index.html
+          echo '</body></html>' >> deploy-reports/index.html    
           
       # 2. **PASO CRÍTICO: CREAR Y SUBIR EL ARTEFACTO DE DESPLIEGUE**
       # La acción de Pages debe consumir un artefacto llamado 'github-pages'
