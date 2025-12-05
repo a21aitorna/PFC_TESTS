@@ -33,7 +33,7 @@ jobs:
       # Ejecutar tests con reporter JUnit
       - name: Run backend tests
         working-directory: backend-testing
-        run: npm test
+        run: node ./run-all-tests.js
 
       # Subir artefactos
       - name: Upload backend test report
