@@ -37,6 +37,7 @@ jobs:
 
       # Subir reportes HTML como artefactos
       - name: Upload backend HTML reports
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: backend-html-reports
@@ -66,6 +67,7 @@ jobs:
         run: mvn test
         
       - name: Upload frontend test reports as artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: frontend-test-reports
