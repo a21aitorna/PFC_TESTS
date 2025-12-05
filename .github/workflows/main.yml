@@ -1,13 +1,51 @@
-name: Test Workflow
+name: Scheduled Backend & Frontend Tests
 
 on:
+  workflow_dispatch:   # Permite ejecución manual
   schedule:
-    - cron: '0 2 * * *'   # Se ejecuta cada día a las 02:00 UTC
-  workflow_dispatch:      # Permite ejecutarlo manualmente
+    - cron: '0 2 * * *'  # Se ejecuta cada día a las 02:00 UTC
 
 jobs:
-  hello:
+  backend:
+    name: Backend Tests
     runs-on: ubuntu-latest
     steps:
-      - name: Say hello
-        run: echo "Hola mundo desde GitHub Actions"
+      # Clonar repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Configurar Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # Instalar dependencias desde package-lock.json
+      - name: Install backend dependencies
+        working-directory: backend-testing
+        run: npm ci
+
+      # Ejecutar tests de backend
+      - name: Run backend tests
+        working-directory: backend-testing
+        run: node ./run-all-tests.js
+
+  frontend:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    steps:
+      # Clonar repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Configurar Java y Maven
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # Ejecutar tests de frontend (Maven descarga dependencias desde pom.xml)
+      - name: Run frontend tests
+        working-directory: frontend-testing
+        run: mvn test
