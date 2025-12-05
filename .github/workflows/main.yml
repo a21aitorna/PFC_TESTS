@@ -1,4 +1,4 @@
-name: Scheduled Backend & Frontend Tests
+name: Scheduled Backend & Frontend Tests with Reports
 
 on:
   workflow_dispatch:   # Permite ejecución manual
@@ -20,15 +20,35 @@ jobs:
         with:
           node-version: '18'
 
-      # Instalar dependencias desde package-lock.json
+      # Instalar dependencias
       - name: Install backend dependencies
         working-directory: backend-testing
-        run: npm install
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
 
-      # Ejecutar tests de backend
+      # Ejecutar tests con reporter JUnit
       - name: Run backend tests
         working-directory: backend-testing
-        run: node ./run-all-tests.js
+        run: npm test
+
+      # Subir artefactos
+      - name: Upload backend test report
+        uses: actions/upload-artifact@v3
+        with:
+          name: backend-test-report
+          path: backend-testing/reports/backend-results.xml
+
+      # Publicar resumen en GitHub Actions
+      - name: Publish Backend JUnit results
+        uses: dorny/test-reporter@v2
+        with:
+          name: Backend Tests
+          path: backend-testing/reports/backend-results.xml
+          reporter: junit
 
   frontend:
     name: Frontend Tests
@@ -45,7 +65,28 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # Ejecutar tests de frontend (Maven descarga dependencias desde pom.xml)
+      # Instalar Chrome (para Selenium)
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v2
+        with:
+          chrome-version: 'stable'
+
+      # Ejecutar tests Maven (generará target/surefire-reports/*.xml)
       - name: Run frontend tests
         working-directory: frontend-testing
         run: mvn test
+
+      # Subir artefactos
+      - name: Upload frontend test reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: frontend-test-report
+          path: frontend-testing/target/surefire-reports/*.xml
+
+      # Publicar resumen en GitHub Actions
+      - name: Publish Frontend JUnit results
+        uses: dorny/test-reporter@v2
+        with:
+          name: Frontend Tests
+          path: frontend-testing/target/surefire-reports/*.xml
+          reporter: junit
