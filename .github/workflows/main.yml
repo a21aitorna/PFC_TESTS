@@ -1,3 +1,4 @@
+
 name: Scheduled Backend & Frontend Tests with Reports
 
 on:
@@ -40,6 +41,9 @@ jobs:
         with:
           name: backend-html-reports
           path: backend-testing/reports/**/*.html
+
+      - name: Disable Jekyll
+        run: touch backend-testing/reports/.nojekyll
 
       # Publicar reportes en GitHub Pages
       - name: Deploy backend HTML reports to GitHub Pages
