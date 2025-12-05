@@ -48,7 +48,7 @@ Feature: Login
 
     Examples:
       | inputPassword            | password      |
-      | @PROPERTY_PASSWORD_LOGINs | TestUser123.. |
+      | @PROPERTY_PASSWORD_LOGIN | TestUser123.. |
 
   @verifyPasswordIsDisplayed
   Scenario Outline: Click on visualize password button to see the password
