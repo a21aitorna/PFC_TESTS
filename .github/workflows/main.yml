@@ -11,8 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Clonar repo
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       # Configurar Node.js
       - name: Setup Node.js
@@ -41,6 +40,15 @@ jobs:
         with:
           name: backend-html-reports
           path: backend-testing/reports/**/*.html
+
+      # Publicar reportes en GitHub Pages
+      - name: Deploy backend HTML reports to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v7
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./backend-testing/reports
+          publish_branch: gh-pages
+          destination_dir: backend-reports
 
   frontend:
     name: Frontend Tests
