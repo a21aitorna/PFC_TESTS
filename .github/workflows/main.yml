@@ -23,7 +23,7 @@ jobs:
       # Instalar dependencias desde package-lock.json
       - name: Install backend dependencies
         working-directory: backend-testing
-        run: npm ci
+        run: npm install
 
       # Ejecutar tests de backend
       - name: Run backend tests
