@@ -74,44 +74,44 @@ jobs:
           path: frontend-testing/target/cucumber-reports/*.html
           if-no-files-found: error
 
-  deploy: # Nuevo job para el despliegue
+  deploy:
     name: Deploy Reports to GitHub Pages
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: [backend, frontend] # Asegura que se ejecute después de ambos tests
+    needs: [backend, frontend] 
     permissions:
-      pages: write # Permiso necesario para desplegar en Pages
-      id-token: write # Permiso necesario para la autenticación
+      pages: write 
+      id-token: write 
 
     steps:
-      # 1. Descargar el artefacto de los reportes del backend
+      # 1. Descargar los reportes (igual que antes)
       - name: Download backend reports artifact
         uses: actions/download-artifact@v4
         with:
           name: backend-html-reports
-          path: deploy-reports/backend # Directorio donde se descargará el contenido
+          path: deploy-reports/backend
 
-      # 2. Descargar el artefacto de los reportes del frontend
       - name: Download frontend reports artifact
         uses: actions/download-artifact@v4
         with:
           name: frontend-test-reports
-          path: deploy-reports/frontend # Directorio donde se descargará el contenido
+          path: deploy-reports/frontend
           
-      # 3. Preparar la estructura para Pages (si es necesario)
-      # Puedes añadir un index.html simple para enlazar ambos reportes
-
-      # 4. Configurar la acción de Pages
+      # 2. **PASO CRÍTICO: CREAR Y SUBIR EL ARTEFACTO DE DESPLIEGUE**
+      # La acción de Pages debe consumir un artefacto llamado 'github-pages'
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Subimos todo el contenido descargado
+          path: deploy-reports
+          
+      # 3. Configurar la acción de Pages (igual que antes)
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v4
 
-      # 5. Desplegar
-      - name: Upload artifact and Deploy to GitHub Pages
+      # 4. Desplegar (ahora SÍ encontrará el artefacto 'github-pages')
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        with:
-          # La ruta al directorio que contiene todos tus reportes. 
-          # Asegúrate de que esta carpeta contenga el HTML que deseas visualizar.
-          artifact_path: deploy-reports
