@@ -37,7 +37,7 @@ jobs:
 
       # Subir artefactos
       - name: Upload backend test report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: backend-test-report
           path: backend-testing/reports/backend-results.xml
@@ -78,7 +78,7 @@ jobs:
 
       # Subir artefactos
       - name: Upload frontend test reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: frontend-test-report
           path: frontend-testing/target/surefire-reports/*.xml
