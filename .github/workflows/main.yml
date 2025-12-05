@@ -1,0 +1,13 @@
+name: Test Workflow
+
+on:
+  schedule:
+    - cron: '0 2 * * *'   # Se ejecuta cada día a las 02:00 UTC
+  workflow_dispatch:      # Permite ejecutarlo manualmente
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say hello
+        run: echo "Hola mundo desde GitHub Actions"
