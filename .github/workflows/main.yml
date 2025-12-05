@@ -30,25 +30,17 @@ jobs:
             npm install
           fi
 
-      # Ejecutar tests con reporter JUnit
+      # Ejecutar tests
       - name: Run backend tests
         working-directory: backend-testing
         run: node ./run-all-tests.js
 
-      # Subir artefactos
+      # Subir reportes HTML como artefactos
       - name: Upload backend HTML reports
         uses: actions/upload-artifact@v4
         with:
           name: backend-html-reports
           path: backend-testing/reports/**/*.html
-
-      # Publicar resumen en GitHub Actions
-      - name: Publish Backend JUnit results
-        uses: dorny/test-reporter@v2
-        with:
-          name: Backend Tests
-          path: backend-testing/reports/backend-results.xml
-          reporter: junit
 
   frontend:
     name: Frontend Tests
