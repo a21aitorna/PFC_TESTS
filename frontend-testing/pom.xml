@@ -16,6 +16,7 @@
         <selenium.version>4.15.0</selenium.version>
         <webdrivermanager.version>5.5.3</webdrivermanager.version>
         <junit.jupiter.version>5.10.0</junit.jupiter.version>
+        <junit.platform.version>1.10.2</junit.platform.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -50,20 +51,16 @@
         <!-- JUnit 5 -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
+            <artifactId>junit-jupiter</artifactId>
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.jupiter.version}</version>
-            <scope>test</scope>
-        </dependency>
+        
+        <!-- JUnit Platform Suite -->
         <dependency>
             <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-suite-api</artifactId>
-            <version>1.10.2</version>
+            <artifactId>junit-platform-suite</artifactId>
+            <version>${junit.platform.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -104,8 +101,12 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
-                    <forkCount>1</forkCount>
-                    <reuseForks>true</reuseForks>
+                    <properties>
+                        <configurationParameters>
+                            cucumber.junit-platform.naming-strategy=long
+                            cucumber.execution.parallel.enabled=false
+                        </configurationParameters>
+                    </properties>
                 </configuration>
             </plugin>
         </plugins>
