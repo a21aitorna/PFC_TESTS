@@ -42,34 +42,32 @@ jobs:
           name: backend-html-reports
           path: backend-testing/reports/**/*.html
 
-frontend:
-  name: Frontend Tests
-  runs-on: ubuntu-latest
+  frontend:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
 
-  steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Setup Java
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: '17'
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-    - name: Setup Chrome
-      uses: browser-actions/setup-chrome@v2
-      with:
-        chrome-version: 'stable'
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v2
+        with:
+          chrome-version: 'stable'
 
-    - name: Run frontend tests
-      working-directory: frontend-testing
-      run: mvn test
-
-    # ⬆️ ESTO GENERA: frontend-testing/target/surefire-reports/*.xml
-
-    - name: Upload frontend test reports as artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: frontend-test-reports
-        path: frontend-testing/target/surefire-reports/
-        if-no-files-found: error
+      - name: Run frontend tests
+        working-directory: frontend-testing
+        run: mvn test
+        
+      - name: Upload frontend test reports as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-test-reports
+          path: frontend-testing/target/surefire-reports/
+          if-no-files-found: error
