@@ -99,7 +99,7 @@ jobs:
           name: frontend-test-reports
           path: deploy-reports/frontend
 
-      - name: Create Index File for Navigation Automatically 🤖
+      - name: Create Index File for Navigation Automatically
         run: |
           INDEX_FILE="deploy-reports/index.html"
 
