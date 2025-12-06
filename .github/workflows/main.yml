@@ -101,29 +101,29 @@ jobs:
 
       - name: Create Index File for Navigation Automatically 🤖
         run: |
-          # 1. Creamos la estructura inicial del archivo
           INDEX_FILE="deploy-reports/index.html"
+
           echo '<!DOCTYPE html>' > $INDEX_FILE
           echo '<html><head><title>Test Reports Index</title></head><body>' >> $INDEX_FILE
           echo '<h1>Automated Test Reports Index</h1>' >> $INDEX_FILE
-          echo '<ul>' >> $INDEX_FILE
-          
-          # 2. Iteramos sobre los directorios que contienen los reportes
-          # Usamos find para buscar solo directorios (tipo 'd') y excluyendo la carpeta raíz
-          for dir in $(find deploy-reports -mindepth 1 -maxdepth 1 -type d); do
-            # Obtenemos solo el nombre de la carpeta (ej: 'backend', 'frontend')
-            REPORT_NAME=$(basename $dir)
-            
-            # Capitalizamos la primera letra para un mejor título
-            DISPLAY_NAME=$(echo $REPORT_NAME | sed 's/\(.\)/\U\1/')
-            
-            # Creamos el elemento <li>. Asumimos que el archivo principal es index.html
-            echo "<li><a href=\"./$REPORT_NAME/index.html\">$DISPLAY_NAME Test Reports</a></li>" >> $INDEX_FILE
+
+          for dir in deploy-reports/*/; do
+            REPORT_NAME=$(basename "$dir")
+
+            echo "<h2>$REPORT_NAME</h2>" >> $INDEX_FILE
+            echo "<ul>" >> $INDEX_FILE
+
+            # Buscar todos los .html dentro de la carpeta
+            find "$dir" -maxdepth 1 -type f -name "*.html" | sort | while read FILE; do
+              FILE_NAME=$(basename "$FILE")
+              echo "<li><a href=\"./$REPORT_NAME/$FILE_NAME\">$FILE_NAME</a></li>" >> $INDEX_FILE
+            done
+
+            echo "</ul>" >> $INDEX_FILE
           done
-          
-          # 3. Cerramos las etiquetas HTML
-          echo '</ul>' >> $INDEX_FILE
-          echo '</body></html>' >> $INDEX_FILE  
+          #Cerrar etiqueta HTML
+          echo '</body></html>' >> $INDEX_FILE
+
           
       # 2. **PASO CRÍTICO: CREAR Y SUBIR EL ARTEFACTO DE DESPLIEGUE**
       # La acción de Pages debe consumir un artefacto llamado 'github-pages'
