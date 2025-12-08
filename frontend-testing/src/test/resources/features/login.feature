@@ -54,7 +54,7 @@ Feature: Login
   Scenario Outline: Click on visualize password button to see the password
     Given the user writes in <inputUsername> its '<username>'
     And the user writes in <inputPassword> its '<password>'
-    When the user click on <visualizePassword> button
+    When the user clicks on <visualizePassword> button
     Then the password is displayed as text
 
     Examples:

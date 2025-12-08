@@ -16,29 +16,6 @@ public class LoginSteps {
     LoginPage loginPage = new LoginPage(driver);
     Commons commons = new Commons();
 
-    @Given("the user writes in {} its {string}")
-    public void writeInputField(String property, String text) {
-        if(text.equals("SeleniumUser")){
-            text += System.currentTimeMillis();
-        }
-        if(property.equals("@PROPERTY_PASSWORD_RECOVER") && text.isEmpty()){
-            String password = commons.generatePassword();
-            commons.setSessionVariable("recoverPassword", password);
-            text=password;
-        }
-
-        if(property.equals("@PROPERTY_VERYFY_PASSWORD_RECOVER") && text.isEmpty()){
-            text = commons.getSessionVariable("recoverPassword");
-        }
-        loginPage.writeInInput(property, text);
-    }
-
-    @When("the user clicks on {} button")
-    public void clickOnButtonStep(String property) {
-        loginPage.clickOnElement(property);
-
-    }
-
     @Then("the user is redirected to its library")
     public void theUserIsRedirectedToItsLibrary() {
         String actualLibraryName = loginPage.getLibraryName();
@@ -57,11 +34,6 @@ public class LoginSteps {
     public void thePasswordIsNotDisplayed() {
         String value = "password";
         Assertions.assertTrue(loginPage.veryInputPasswordType(value), "El type no es el esperado");
-    }
-
-    @When("the user click on {} button")
-    public void theUserClickOnButton(String property) {
-        loginPage.clickOnElement(property);
     }
 
     @Then("the password is displayed as text")
