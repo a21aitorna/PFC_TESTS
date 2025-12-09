@@ -2,9 +2,9 @@ package utils;
 
 public class AteneaUtils {
 
+    private String usernameUser;
     private String recoverPassword;
     private String searchbookTerms;
-
     /**
      * Instancia
      */

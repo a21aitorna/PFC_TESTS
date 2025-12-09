@@ -1,6 +1,7 @@
 package steps;
 
 import hooks.DriverHooks;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
@@ -16,6 +17,10 @@ public class CommonSteps {
     public void writeInputField(String property, String text) {
         if(text.equals("SeleniumUser")){
             text += System.currentTimeMillis();
+        }
+
+        if(property.equals("@PROPERTY_USERNAME_LOGIN")){
+            commons.setSessionVariable("usernameUser", text);
         }
 
         if(property.equals("@PROPERTY_PASSWORD_RECOVER") && text.isEmpty()){
@@ -39,5 +44,4 @@ public class CommonSteps {
         loginPage.clickOnElement(property);
 
     }
-
 }
