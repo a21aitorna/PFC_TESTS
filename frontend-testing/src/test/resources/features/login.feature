@@ -60,3 +60,25 @@ Feature: Login
     Examples:
       | inputUsername            | username  | inputPassword            | password      | visualizePassword            |
       | @PROPERTY_USERNAME_LOGIN | Test-User | @PROPERTY_PASSWORD_LOGIN | TestUser123.. | @PROPERTY_VISUALIZE_PASSWORD |
+
+  @loginBlockedUser
+  Scenario Outline: Try to log in with blocked user
+    Given the user writes in <inputUsername> its '<username>'
+    And the user writes in <inputPassword> its '<password>'
+    When the user clicks on <login> button
+    Then it is displayed the error <error>
+
+    Examples:
+      | inputUsername            | username                  | inputPassword            | password      | login                           | error                                              |
+      | @PROPERTY_USERNAME_LOGIN | SeleniumUser1765032418854 | @PROPERTY_PASSWORD_LOGIN | TestUser123.. | @PROPERTY_LOGIN_REGISTER_BUTTON | El usuario está bloqueado. No puede iniciar sesión |
+
+  @loginDeletedUser
+  Scenario Outline: Try to log in with blocked user
+    Given the user writes in <inputUsername> its '<username>'
+    And the user writes in <inputPassword> its '<password>'
+    When the user clicks on <login> button
+    Then it is displayed the error <error>
+
+    Examples:
+      | inputUsername            | username                  | inputPassword            | password      | login                           | error                                                          |
+      | @PROPERTY_USERNAME_LOGIN | SeleniumUser1765033017809 | @PROPERTY_PASSWORD_LOGIN | TestUser123.. | @PROPERTY_LOGIN_REGISTER_BUTTON | El usuario está en proceso de borrado. No puede iniciar sesión |
