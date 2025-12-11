@@ -30,5 +30,3 @@ const environment = 'environments/pre.env.json';
     });
   }
 })();
-
-// node run-all-tests.js -> comando para lanzar todos los tests
