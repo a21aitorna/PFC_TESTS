@@ -48,24 +48,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Clonar repo
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Instalar Java   
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
 
+      # Instalar y configurar versión de chrome    
       - name: Setup Chrome
         uses: browser-actions/setup-chrome@v2
         with:
           chrome-version: 'stable'
 
+      # Ejecutar tests    
       - name: Run frontend tests
         working-directory: frontend-testing
         run: mvn test
-        
+      
+      # Subir reporte HTML como artefacto
       - name: Upload frontend test reports as artifact
         if: always()
         uses: actions/upload-artifact@v4
@@ -150,7 +155,7 @@ jobs:
 
 
           
-      # 2. **PASO CRÍTICO: CREAR Y SUBIR EL ARTEFACTO DE DESPLIEGUE**
+      # 2.Crear y subir los aretfactos de despliegue
       # La acción de Pages debe consumir un artefacto llamado 'github-pages'
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
@@ -158,11 +163,11 @@ jobs:
           # Subimos todo el contenido descargado
           path: deploy-reports
           
-      # 3. Configurar la acción de Pages (igual que antes)
+      # 3. Configurar la acción de Pages
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v4
 
-      # 4. Desplegar (ahora SÍ encontrará el artefacto 'github-pages')
+      # 4. Desplegar
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
