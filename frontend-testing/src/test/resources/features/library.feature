@@ -1,5 +1,5 @@
-@libraryFeature
-Feature: Login
+@libraryFeature  @all
+Feature: Library
 
   @successUploadPDFBook
   Scenario Outline: Upload PDF book
